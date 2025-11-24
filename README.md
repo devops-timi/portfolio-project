@@ -17,13 +17,10 @@ This project demonstrates how to automate the installation and configuration of 
 The project directory structure is as follows:
 
 new_project/
-└── portfolio-project/
-├── README.md
-└── jenkins_docker.yml
-└── inventory
-
-yaml
-Copy code
+portfolio-project/
+README.md
+jenkins_docker.yml
+inventory
 
 - `README.md` – this documentation file
 - `jenkins_docker.yml` – Ansible playbook to install Docker and configure user permissions
@@ -235,6 +232,7 @@ docker --version
 docker ps
 groups ubuntu
 groups jenkins
+
 
 
 
