@@ -53,8 +53,6 @@ Cloned the repository locally:
     git add README.md
     git commit -m "Add README"
 
-<img width="1920" height="1080" alt="Screenshot (464)" src="https://github.com/user-attachments/assets/e11e3cc5-26ee-455c-aabe-7be1a7a5db87" />
-
 
 ### 2. Create Ansible Playbook
 Created the Ansible playbook jenkins_docker.yml to:
@@ -96,6 +94,9 @@ Tracked and committed the playbook:
     git commit -m "Add Ansible playbook to install Docker and set permissions"
     git push origin main
 
+<img width="1098" height="938" alt="Screenshot (464)" src="https://github.com/user-attachments/assets/2b51e3a2-eec9-4353-bb38-ab7323abecb2" />
+
+
 
 ### 3. Launch EC2 Instances on AWS
 Launched two EC2 instances:
@@ -112,10 +113,13 @@ Installed Ansible on the control server:
 Installed Jenkins on the target server:
 
     sudo apt update
-    sudo apt install jenkins -y
-    
+    sudo apt install jenkins -y #See Jenkins Documentation
+
+<img width="1811" height="960" alt="Screenshot (452)" src="https://github.com/user-attachments/assets/3caae11d-8532-44d6-8813-86d8160696c4" />
+
 Set inbound security group rules for port 8080 on the target server to allow Jenkins access.
 
+<img width="1920" height="1080" alt="Screenshot (462)" src="https://github.com/user-attachments/assets/b29c3cd7-b994-4445-abdb-180fbf7a1126" />
 
 
 ### 4. Set Up Passwordless SSH
@@ -124,6 +128,8 @@ On the control server:
 Generate SSH key pair:
 
     ssh-keygen -t ed25519
+
+<img width="1138" height="972" alt="Screenshot (448)" src="https://github.com/user-attachments/assets/f9013987-f95c-4672-90d7-48d0f5287426" />
     
 Copy the public key to the target server’s authorized_keys:
 
@@ -134,6 +140,9 @@ Copy the public key to the target server’s authorized_keys:
 Now, the control server can SSH into the target server without a password:
 
     ssh ubuntu@TARGET_IP
+
+<img width="1083" height="981" alt="Screenshot (449)" src="https://github.com/user-attachments/assets/d01a4a98-c02a-4f2b-80a0-3c197ca1d548" />
+
 
     
 ### 5. Clone Repository on Control Server
@@ -149,14 +158,21 @@ Created inventory file to store the target server’s IP address:
     vim inventory
     Paste TARGET_IP 
 
+<img width="738" height="984" alt="Screenshot (451)" src="https://github.com/user-attachments/assets/ebd02bfa-7a67-4090-a670-c5b24951f61f" />
+
+
 ### 7. Run Ansible Playbook
 Execute the playbook to install Docker and configure users:
 
     ansible-playbook -i inventory jenkins_docker.yml
 
+<img width="1920" height="727" alt="Screenshot (455)" src="https://github.com/user-attachments/assets/ecbafa4b-0875-4e08-9101-6fcac5c47831" />
+
 Ansible connects to the target server via SSH and runs the tasks.
 
 Output shows ok or changed for each task.
+
+
 
 ### 8. Verify Docker and User Permissions
 Connect to the target server from the control server:
@@ -172,26 +188,11 @@ Check user group membership:
 
     groups ubuntu
     groups jenkins
-    
+
+<img width="1920" height="717" alt="Screenshot (458)" src="https://github.com/user-attachments/assets/7ffeb210-213f-4421-a732-c5dcf69bb6ac" />
+
 Both users should include the docker group.
-<img width="1920" height="1080" alt="Screenshot (464)" src="https://github.com/user-attachments/assets/c09b7746-b52a-4376-9e9d-e04418258439" />
-<img width="1920" height="1080" alt="Screenshot (463)" src="https://github.com/user-attachments/assets/b5d1f70f-42a6-4563-86f5-9849e48da126" />
-<img width="1920" height="1080" alt="Screenshot (462)" src="https://github.com/user-attachments/assets/13905aa9-5c8b-4e2b-8aa7-6d125731f640" />
-<img width="1920" height="1080" alt="Screenshot (461)" src="https://github.com/user-attachments/assets/ccf79ffa-8311-4f36-a6e7-c7d00e6a48a7" />
-<img width="1920" height="1080" alt="Screenshot (460)" src="https://github.com/user-attachments/assets/602a0645-e9a9-44ea-9273-f9ac0dfc9782" />
-<img width="1920" height="1080" alt="Screenshot (459)" src="https://github.com/user-attachments/assets/a96ef44c-5ad1-4c3f-96a8-9c9aed8d1925" />
-<img width="1920" height="1080" alt="Screenshot (458)" src="https://github.com/user-attachments/assets/85faec71-dc9a-48ea-abea-92deec254fc6" />
-<img width="1920" height="1080" alt="Screenshot (457)" src="https://github.com/user-attachments/assets/675a2ea8-1674-481d-974f-0537f8b694ff" />
-<img width="1920" height="1080" alt="Screenshot (456)" src="https://github.com/user-attachments/assets/acd803bd-1ef7-4f35-989c-d06494208343" />
-<img width="1920" height="1080" alt="Screenshot (455)" src="https://github.com/user-attachments/assets/0298d7c8-8a2e-44c5-a749-19f51074cf27" />
-<img width="1920" height="1080" alt="Screenshot (454)" src="https://github.com/user-attachments/assets/ef2a9330-35b5-4415-b211-2f1e13ecd539" />
-<img width="1920" height="1080" alt="Screenshot (453)" src="https://github.com/user-attachments/assets/987daf2f-e6a2-448b-9551-a2aca836e9da" />
-<img width="1920" height="1080" alt="Screenshot (452)" src="https://github.com/user-attachments/assets/588ba2a8-e273-44c4-b57a-e172e07eb387" />
-<img width="1920" height="1080" alt="Screenshot (451)" src="https://github.com/user-attachments/assets/8f6e4196-f008-45eb-8520-60ee4c3ced79" />
-<img width="1920" height="1080" alt="Screenshot (450)" src="https://github.com/user-attachments/assets/cca25c12-6a80-4b3f-b066-57050600bff2" />
-<img width="1920" height="1080" alt="Screenshot (449)" src="https://github.com/user-attachments/assets/f5643ff1-fe38-4b07-85d1-201993ded723" />
-<img width="1920" height="1080" alt="Screenshot (448)" src="https://github.com/user-attachments/assets/1a928bfd-7039-4f10-addf-65466518c8d8" />
-<img width="1920" height="1080" alt="Screenshot (447)" src="https://github.com/user-attachments/assets/6aba56a2-bcd3-4af0-887b-972401372fe9" />
+
 
 Summary
 Successfully automated Docker installation and user permission setup on an EC2 instance using Ansible.
@@ -199,6 +200,7 @@ Successfully automated Docker installation and user permission setup on an EC2 i
 Passwordless SSH between control and target servers allows seamless playbook execution.
 
 Repository is version-controlled on GitHub for future tracking and collaboration.
+
 
 Commands Reference
 
@@ -218,11 +220,14 @@ ssh-keygen -t ed25519
 ssh-copy-id -i ~/.ssh/id_ed25519.pub ubuntu@TARGET_IP
 
 # Run Ansible playbook
-ansible-playbook -i inventory jenkins_docker.yml
+ansible-playbook -i inventory 
+jenkins_docker.yml
 
 # Verify Docker and groups
 docker --version
 docker ps
 groups ubuntu
 groups jenkins
+
+
 
