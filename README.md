@@ -35,16 +35,18 @@ inventory
 On the local machine (or directly on the control server):
 
 
-    mkdir -p ~/new_project/portfolio-project
-    cd ~/new_project/portfolio-project
-    git init
+    mkdir new_project
+    cd new_project
     
 Create an empty repository on GitHub called portfolio-project
 
 Clone the repository locally:
 
-    git clone <github-repo-url> .
-    Created and tracked the README.md file:
+    git clone <github-repo-url> 
+    cd protfolio-project
+    git init
+    
+    Creat and track the README.md file:
 
     touch README.md
     git add README.md
@@ -232,6 +234,7 @@ docker --version
 docker ps
 groups ubuntu
 groups jenkins
+
 
 
 
