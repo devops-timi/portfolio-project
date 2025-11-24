@@ -42,9 +42,9 @@ On the local machine (or directly on the control server):
     cd ~/new_project/portfolio-project
     git init
     
-Created an empty repository on GitHub called portfolio-project
+Create an empty repository on GitHub called portfolio-project
 
-Cloned the repository locally:
+Clone the repository locally:
 
     git clone <github-repo-url> .
     Created and tracked the README.md file:
@@ -55,7 +55,7 @@ Cloned the repository locally:
 
 
 ### 2. Create Ansible Playbook
-Created the Ansible playbook jenkins_docker.yml to:
+Create the Ansible playbook jenkins_docker.yml to:
 
 - Install Docker
 
@@ -88,7 +88,7 @@ Example commands within the playbook (tasks):
         groups: docker
         append: yes
         
-Tracked and committed the playbook:
+Track and committ the playbook:
 
     git add jenkins_docker.yml
     git commit -m "Add Ansible playbook to install Docker and set permissions"
@@ -99,18 +99,18 @@ Tracked and committed the playbook:
 
 
 ### 3. Launch EC2 Instances on AWS
-Launched two EC2 instances:
+Launch two EC2 instances:
 
 - Control server – where Ansible is installed
 
 - Target server – where Docker and Jenkins are installed
 
-Installed Ansible on the control server:
+Install Ansible on the control server:
 
     sudo apt update
     sudo apt install ansible -y
     
-Installed Jenkins on the target server:
+Install Jenkins on the target server:
 
     sudo apt update
     sudo apt install jenkins -y #See Jenkins Documentation
@@ -119,7 +119,14 @@ Installed Jenkins on the target server:
 
 Set inbound security group rules for port 8080 on the target server to allow Jenkins access.
 
-<img width="1920" height="1080" alt="Screenshot (462)" src="https://github.com/user-attachments/assets/b29c3cd7-b994-4445-abdb-180fbf7a1126" />
+<img width="1920" height="858" alt="Screenshot (465)" src="https://github.com/user-attachments/assets/75fe4846-2585-4a7d-b109-6f05cc9cb607" />
+
+Copy TARGET_IP with port 8080 and paste on browser as TARGET_IP:8080 to view Jenkins page
+
+<img width="1358" height="868" alt="Screenshot (460)" src="https://github.com/user-attachments/assets/8f48050b-3ef3-4443-b34c-dc7656f81664" />
+
+<img width="1351" height="852" alt="Screenshot (462)" src="https://github.com/user-attachments/assets/6b343817-8286-4b21-a26a-c0a403b931b7" />
+
 
 
 ### 4. Set Up Passwordless SSH
@@ -228,6 +235,7 @@ docker --version
 docker ps
 groups ubuntu
 groups jenkins
+
 
 
 
