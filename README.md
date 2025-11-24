@@ -29,7 +29,7 @@ new_project/
 
 ## Step-by-Step Process
 
-### 1. Create Project Directory and Repository
+## 1. Create Project Directory and Repository
 
 On the local machine (or directly on the control server):
 
@@ -51,15 +51,16 @@ touch README.md
 git add README.md
 git commit -m "Add README"
 
-2. Create Ansible Playbook
 
-      Created the Ansible playbook jenkins_docker.yml to:
+## 2. Create Ansible Playbook
 
-      - Install Docker
+Created the Ansible playbook jenkins_docker.yml to:
 
-      - Start the Docker daemon
+- Install Docker
 
-      - Add both ubuntu and jenkins users to the Docker group
+- Start the Docker daemon
+
+- Add both ubuntu and jenkins users to the Docker group
 
 Example commands within the playbook (tasks):
 
@@ -94,7 +95,7 @@ git push origin main
 
 
 
-3. Launch EC2 Instances on AWS
+## 3. Launch EC2 Instances on AWS
 
     Launched two EC2 instances:
 
@@ -117,7 +118,8 @@ git push origin main
     Set inbound security group rules for port 8080 on the target server to allow Jenkins access.
    
 
-5. Set Up Passwordless SSH
+
+4. Set Up Passwordless SSH
 
 On the control server:
 
@@ -137,6 +139,8 @@ Now, the control server can SSH into the target server without a password:
 
 ssh ubuntu@TARGET_IP
 
+
+
 5. Clone Repository on Control Server
 
 On the control server:
@@ -144,12 +148,16 @@ On the control server:
 git clone <github-repo-url> portfolio-project
 cd portfolio-project
 
+
+
 6. Create Ansible Inventory File
 
 Created inventory file to store the target server’s IP address:
 
 [all]
 target ansible_host=TARGET_IP ansible_user=ubuntu
+
+
 
 7. Run Ansible Playbook
 
@@ -161,6 +169,8 @@ ansible-playbook -i inventory jenkins_docker.yml
 Ansible connects to the target server via SSH and runs the tasks.
 
 Output shows ok or changed for each task.
+
+
 
 8. Verify Docker and User Permissions
 
@@ -179,3 +189,4 @@ Check user group membership:
 
 groups ubuntu
 groups jenkins
+
