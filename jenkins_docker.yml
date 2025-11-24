@@ -1,0 +1,36 @@
+---
+
+- name: Install Jenkins as Master and Docker as agent
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: Install Docker
+      apt: 
+        name: docker.io
+        state: present
+
+    - name: Start Docker Daemon
+      service:
+        name: docker
+        state: started
+
+    - name: Add Ubuntu User to Docker Group for Permission
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+      become: yes
+   
+    - name: Add Jenkins User to Docker Group for Permission    
+      user: 
+        name: jenkins
+        groups: docker
+        append: yes
+      become: yes
+
+
+
+
+
