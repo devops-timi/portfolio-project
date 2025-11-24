@@ -37,149 +37,161 @@ Copy code
 
 On the local machine (or directly on the control server):
 
-```bash
-mkdir -p ~/new_project/portfolio-project
-cd ~/new_project/portfolio-project
-git init
+
+    mkdir -p ~/new_project/portfolio-project
+    cd ~/new_project/portfolio-project
+    git init
+    
 Created an empty repository on GitHub called portfolio-project
 
 Cloned the repository locally:
 
-bash
-Copy code
-git clone <github-repo-url> .
-Created and tracked the README.md file:
+    git clone <github-repo-url> .
+    Created and tracked the README.md file:
 
-bash
-Copy code
-touch README.md
-git add README.md
-git commit -m "Add README"
-2. Create Ansible Playbook
+    touch README.md
+    git add README.md
+    git commit -m "Add README"
+
+<img width="1920" height="1080" alt="Screenshot (464)" src="https://github.com/user-attachments/assets/e11e3cc5-26ee-455c-aabe-7be1a7a5db87" />
+
+
+### 2. Create Ansible Playbook
 Created the Ansible playbook jenkins_docker.yml to:
 
-Install Docker
+- Install Docker
 
-Start the Docker daemon
+- Start the Docker daemon
 
-Add both ubuntu and jenkins users to the Docker group
+- Add both ubuntu and jenkins users to the Docker group
 
 Example commands within the playbook (tasks):
 
-yaml
-Copy code
-- name: Install Docker
-  apt:
-    name: docker.io
-    state: present
 
-- name: Start Docker Daemon
-  service:
-    name: docker
-    state: started
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
 
-- name: Add Ubuntu User to Docker Group
-  user:
-    name: ubuntu
-    groups: docker
-    append: yes
+    - name: Start Docker Daemon
+      service:
+        name: docker
+        state: started
 
-- name: Add Jenkins User to Docker Group
-  user:
-    name: jenkins
-    groups: docker
-    append: yes
+    - name: Add Ubuntu User to Docker Group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+    - name: Add Jenkins User to Docker Group
+      user:
+        name: jenkins
+        groups: docker
+        append: yes
+        
 Tracked and committed the playbook:
 
-bash
-Copy code
-git add jenkins_docker.yml
-git commit -m "Add Ansible playbook to install Docker and set permissions"
-git push origin main
-3. Launch EC2 Instances on AWS
+    git add jenkins_docker.yml
+    git commit -m "Add Ansible playbook to install Docker and set permissions"
+    git push origin main
+
+
+### 3. Launch EC2 Instances on AWS
 Launched two EC2 instances:
 
-Control server – where Ansible is installed
+- Control server – where Ansible is installed
 
-Target server – where Docker and Jenkins are installed
+- Target server – where Docker and Jenkins are installed
 
 Installed Ansible on the control server:
 
-bash
-Copy code
-sudo apt update
-sudo apt install ansible -y
+    sudo apt update
+    sudo apt install ansible -y
+    
 Installed Jenkins on the target server:
 
-bash
-Copy code
-sudo apt update
-sudo apt install jenkins -y
+    sudo apt update
+    sudo apt install jenkins -y
+    
 Set inbound security group rules for port 8080 on the target server to allow Jenkins access.
 
-4. Set Up Passwordless SSH
+
+
+### 4. Set Up Passwordless SSH
 On the control server:
 
 Generate SSH key pair:
 
-bash
-Copy code
-ssh-keygen -t ed25519
+    ssh-keygen -t ed25519
+    
 Copy the public key to the target server’s authorized_keys:
 
-bash
-Copy code
-ssh-copy-id -i ~/.ssh/id_ed25519.pub ubuntu@TARGET_IP
-Alternatively, manually append the public key to /home/ubuntu/.ssh/authorized_keys on the target server.
+    ssh-copy-id -i ~/.ssh/id_ed25519.pub ubuntu@TARGET_IP
+    
+    Alternatively, manually append the public key to /home/ubuntu/.ssh/authorized_keys on the target server.
 
 Now, the control server can SSH into the target server without a password:
 
-bash
-Copy code
-ssh ubuntu@TARGET_IP
-5. Clone Repository on Control Server
+    ssh ubuntu@TARGET_IP
+
+    
+### 5. Clone Repository on Control Server
 On the control server:
 
-bash
-Copy code
-git clone <github-repo-url> portfolio-project
-cd portfolio-project
-6. Create Ansible Inventory File
+    git clone <github-repo-url> portfolio-project
+    cd portfolio-project
+
+    
+### 6. Create Ansible Inventory File
 Created inventory file to store the target server’s IP address:
 
-ini
-Copy code
-[all]
-target ansible_host=TARGET_IP ansible_user=ubuntu
-7. Run Ansible Playbook
+    vim inventory
+    Paste TARGET_IP 
+
+### 7. Run Ansible Playbook
 Execute the playbook to install Docker and configure users:
 
-bash
-Copy code
-ansible-playbook -i inventory jenkins_docker.yml
+    ansible-playbook -i inventory jenkins_docker.yml
+
 Ansible connects to the target server via SSH and runs the tasks.
 
 Output shows ok or changed for each task.
 
-8. Verify Docker and User Permissions
+### 8. Verify Docker and User Permissions
 Connect to the target server from the control server:
 
-bash
-Copy code
-ssh ubuntu@TARGET_IP
+    ssh ubuntu@TARGET_IP
+    
 Check Docker installation:
 
-bash
-Copy code
-docker --version
-docker ps
+    docker --version
+    docker ps
+    
 Check user group membership:
 
-bash
-Copy code
-groups ubuntu
-groups jenkins
+    groups ubuntu
+    groups jenkins
+    
 Both users should include the docker group.
+<img width="1920" height="1080" alt="Screenshot (464)" src="https://github.com/user-attachments/assets/c09b7746-b52a-4376-9e9d-e04418258439" />
+<img width="1920" height="1080" alt="Screenshot (463)" src="https://github.com/user-attachments/assets/b5d1f70f-42a6-4563-86f5-9849e48da126" />
+<img width="1920" height="1080" alt="Screenshot (462)" src="https://github.com/user-attachments/assets/13905aa9-5c8b-4e2b-8aa7-6d125731f640" />
+<img width="1920" height="1080" alt="Screenshot (461)" src="https://github.com/user-attachments/assets/ccf79ffa-8311-4f36-a6e7-c7d00e6a48a7" />
+<img width="1920" height="1080" alt="Screenshot (460)" src="https://github.com/user-attachments/assets/602a0645-e9a9-44ea-9273-f9ac0dfc9782" />
+<img width="1920" height="1080" alt="Screenshot (459)" src="https://github.com/user-attachments/assets/a96ef44c-5ad1-4c3f-96a8-9c9aed8d1925" />
+<img width="1920" height="1080" alt="Screenshot (458)" src="https://github.com/user-attachments/assets/85faec71-dc9a-48ea-abea-92deec254fc6" />
+<img width="1920" height="1080" alt="Screenshot (457)" src="https://github.com/user-attachments/assets/675a2ea8-1674-481d-974f-0537f8b694ff" />
+<img width="1920" height="1080" alt="Screenshot (456)" src="https://github.com/user-attachments/assets/acd803bd-1ef7-4f35-989c-d06494208343" />
+<img width="1920" height="1080" alt="Screenshot (455)" src="https://github.com/user-attachments/assets/0298d7c8-8a2e-44c5-a749-19f51074cf27" />
+<img width="1920" height="1080" alt="Screenshot (454)" src="https://github.com/user-attachments/assets/ef2a9330-35b5-4415-b211-2f1e13ecd539" />
+<img width="1920" height="1080" alt="Screenshot (453)" src="https://github.com/user-attachments/assets/987daf2f-e6a2-448b-9551-a2aca836e9da" />
+<img width="1920" height="1080" alt="Screenshot (452)" src="https://github.com/user-attachments/assets/588ba2a8-e273-44c4-b57a-e172e07eb387" />
+<img width="1920" height="1080" alt="Screenshot (451)" src="https://github.com/user-attachments/assets/8f6e4196-f008-45eb-8520-60ee4c3ced79" />
+<img width="1920" height="1080" alt="Screenshot (450)" src="https://github.com/user-attachments/assets/cca25c12-6a80-4b3f-b066-57050600bff2" />
+<img width="1920" height="1080" alt="Screenshot (449)" src="https://github.com/user-attachments/assets/f5643ff1-fe38-4b07-85d1-201993ded723" />
+<img width="1920" height="1080" alt="Screenshot (448)" src="https://github.com/user-attachments/assets/1a928bfd-7039-4f10-addf-65466518c8d8" />
+<img width="1920" height="1080" alt="Screenshot (447)" src="https://github.com/user-attachments/assets/6aba56a2-bcd3-4af0-887b-972401372fe9" />
 
 Summary
 Successfully automated Docker installation and user permission setup on an EC2 instance using Ansible.
@@ -189,8 +201,7 @@ Passwordless SSH between control and target servers allows seamless playbook exe
 Repository is version-controlled on GitHub for future tracking and collaboration.
 
 Commands Reference
-bash
-Copy code
+
 # Project setup
 mkdir -p ~/new_project/portfolio-project
 cd ~/new_project/portfolio-project
@@ -214,3 +225,4 @@ docker --version
 docker ps
 groups ubuntu
 groups jenkins
+
